@@ -23,6 +23,14 @@ pipeline {
                 }
             }
         }
+
+        stage('Kubectl deployment') {
+                    steps {
+                        script {
+                            sh 'kubectl apply -f deployment.yml'
+                        }
+                    }
+        }
     }
 
     post {
