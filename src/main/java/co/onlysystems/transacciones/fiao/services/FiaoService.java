@@ -1,5 +1,7 @@
 package co.onlysystems.transacciones.fiao.services;
 
+import org.springframework.http.ResponseEntity;
+
 import co.onlysystems.transacciones.fiao.modelo.dto.AprobacionFiao;
 import co.onlysystems.transacciones.fiao.modelo.dto.FiaoRecord;
 import co.onlysystems.transacciones.fiao.modelo.entity.Fiao;
@@ -16,8 +18,10 @@ public interface FiaoService {
 
    Mono<Boolean> cambiarEstadoFiao(AprobacionFiao fiao, OperacionFio operacion);
 
-    void crearFio(FiaoRecord tx);
+    Mono<ResponseEntity<String>>  crearFio(FiaoRecord tx);
 
     Flux<Fiao> consultarFiaoCuenta(UuidVale uuid) ;
+
+    Mono<Double> consultarBalanceCuenta(UuidVale uuid);
 
 }

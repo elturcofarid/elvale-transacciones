@@ -1,18 +1,25 @@
 package co.onlysystems.transacciones.establecimiento.services;
 
 import co.onlysystems.transacciones.establecimiento.modelo.Establecimiento;
-import co.onlysystems.transacciones.establecimiento.modelo.EstablecimientoRecord;
+import co.onlysystems.transacciones.establecimiento.modelo.EstablecimientoDto;
+import co.onlysystems.transacciones.shared.values.OperacionCliente;
+import co.onlysystems.transacciones.shared.values.UuidVale;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 
 public interface EstablecimientoService {
 
    Flux<Establecimiento> consultarTx();
 
-   boolean actualizarTx(EstablecimientoRecord tx);
+    Mono<Boolean> actualizar(EstablecimientoDto establecimiento, OperacionCliente operacion);
 
-    void crearTx(EstablecimientoRecord tx);
+    Mono<Boolean> valido(UuidVale uuid);
 
-    boolean eliminarTx(EstablecimientoRecord tx);
+    Mono<Establecimiento> consultarId(UuidVale uuid);
+
+    Mono<Boolean> crear(EstablecimientoDto tx);
+
+    boolean eliminarTx(EstablecimientoDto tx);
 
 }

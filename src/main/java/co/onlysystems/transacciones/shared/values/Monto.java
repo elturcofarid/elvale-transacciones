@@ -2,14 +2,14 @@ package co.onlysystems.transacciones.shared.values;
 
 public class Monto {
 
-    private final double valor;
+    private final int valor;
 
-    public Monto(double valor) {
+    public Monto(int valor) {
         if (valor < 0) throw new IllegalArgumentException("El monto no puede ser negativo.");
         this.valor = valor;
     }
 
-    public double getValor() {
+    public int getValor() {
         return valor;
     }
 

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import co.onlysystems.transacciones.shared.values.*;
 
-
 @Data
 @Setter
 @Getter

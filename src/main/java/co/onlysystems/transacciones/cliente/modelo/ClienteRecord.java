@@ -1,9 +1,7 @@
 
 package co.onlysystems.transacciones.cliente.modelo;
 
-import co.onlysystems.transacciones.shared.values.Cuenta;
-import co.onlysystems.transacciones.shared.values.Fecha;
-import co.onlysystems.transacciones.shared.values.Monto;
+import co.onlysystems.transacciones.cliente.modelo.values.Email;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,33 +10,38 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ClienteRecord{
-   public Cuenta cuentaOrigen; 
-   public Monto monto; 
-   public String tipo; 
-   public String descripcion;
-   public String referencia;
-   public String observaciones; 
-   public String estado;
-   public String usuarioGestor;
-   public Fecha fechaGestion;
-   public String usuarioAprobador;
-   public Fecha fechaAprobacion;
+    public String tipoIdentificacion;
+    public String identificacion;
+    public String nombres; 
+    public String apellidos;
+    public String direccion;
+    public String celular;
+    public String telefono;
+    public Email email; 
+    public String estado;
     
-    
-    public ClienteRecord(Cuenta cuentaOrigen, Monto monto, String tipo, String descripcion, String referencia, String observaciones, String estado, String usuarioGestor, Fecha fechaGestion, String usuarioAprobador, Fecha fechaAprobacion) {
-        this.cuentaOrigen = cuentaOrigen;
-        this.monto = monto;
-        this.tipo = tipo;
-        this.descripcion = descripcion; 
-        this.referencia = referencia;
-        this.observaciones = observaciones;
+    /*
+    public ClienteRecord(String nombres, String apellidos, String direccion, String celular,String telefono, Email email, String estado) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.celular = celular;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.email = email;
         this.estado = estado;
-        this.usuarioGestor = usuarioGestor;
-        this.fechaGestion = fechaGestion;
-        this.usuarioAprobador = usuarioAprobador;
-        this.fechaAprobacion = fechaAprobacion;
-    }
+    }*/
 
+    public ClienteRecord(String tipoIdentificacion, String identificacion, String nombres, String apellidos, String direccion, String celular,String telefono, Email email, String estado) {
+        this.tipoIdentificacion = tipoIdentificacion;
+        this.identificacion = identificacion;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.celular = celular;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.email = email;
+        this.estado = estado;
+    }       
 
 
 }

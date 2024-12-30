@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import co.onlysystems.transacciones.fiao.services.FiaoService;
+import co.onlysystems.transacciones.cliente.modelo.ClienteRecord;
 import co.onlysystems.transacciones.fiao.modelo.dto.AprobacionFiao;
 import co.onlysystems.transacciones.fiao.modelo.dto.FiaoRecord;
 import co.onlysystems.transacciones.fiao.modelo.entity.Fiao;
@@ -18,7 +19,7 @@ import co.onlysystems.transacciones.shared.values.UuidVale;
 
 @RestController 
 @RequestMapping("/fiao")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:8080")
 public class FiaoController {
 
     private static Logger log = LoggerFactory.getLogger(FiaoController.class);
@@ -45,15 +46,12 @@ public class FiaoController {
         return ResponseEntity.ok(fiaoService.consultarFiaoCuenta(uuidVale));
     }
 
+
+
     @PostMapping
-    public ResponseEntity<String> crearFiao(@RequestBody FiaoRecord body) {
-        log.info(" implementar metodo de crear tx");
-        try {
-            fiaoService.crearFio(body);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(" Fiado creado exitosamente ::: ");
+   public Mono<ResponseEntity<String>> crearFiao(@RequestBody FiaoRecord body){
+    System.out.println(body.toString());
+       return fiaoService.crearFio(body); // Manejo de errores
     }
 
    @PutMapping
