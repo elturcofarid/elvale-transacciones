@@ -1,5 +1,6 @@
 package co.onlysystems.transacciones.cuentas.services;
 
+import co.onlysystems.transacciones.RabbitMq.service.IMessageProducer;
 import co.onlysystems.transacciones.cliente.services.ClienteService;
 import co.onlysystems.transacciones.cuentas.modelo.dto.CuentaDto;
 import co.onlysystems.transacciones.cuentas.repository.CuentaRepository;
@@ -8,8 +9,6 @@ import co.onlysystems.transacciones.shared.values.Estados;
 import co.onlysystems.transacciones.shared.values.UuidVale;
 import co.onlysystems.transacciones.cuentas.modelo.entity.CuentaEntity;
 import java.time.LocalDateTime;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -17,6 +16,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class CuentaServiceImp implements CuentaService{
+
 
     @Autowired
     private CuentaRepository cuentaRepository;
@@ -27,7 +27,8 @@ public class CuentaServiceImp implements CuentaService{
     @Autowired  
      private EstablecimientoService establecimientoService;
 
-
+     @Autowired
+     private IMessageProducer messageProducer;
 
     @Override
     public Flux<CuentaEntity> consultarTx() {
@@ -42,6 +43,9 @@ public class CuentaServiceImp implements CuentaService{
     public  Flux<CuentaEntity>  consultarTxPorEstablecimiento(UuidVale uuid) {
         return cuentaRepository.findByEstablecimiento(uuid.getUuid());
     }
+
+
+    
 
     @Override
     public Mono<Boolean> crear(CuentaDto tx) {
@@ -67,17 +71,19 @@ public class CuentaServiceImp implements CuentaService{
                             tx.getIdEstablecimiento().getUuid(),
                             tx.getIdCliente().getUuid(),
                             tx.getMontoAprobado().getValor(),
-                            tx.getTipo(),
-                            tx.getObservaciones(),
                             estado.name(),
+                            tx.getObservaciones(),
+                            tx.usuarioGestor,
                             LocalDateTime.now(),
                             null,
-                            null
+                            null,
+                            tx.tipo
                         );
     
                         return cuentaRepository.save(cuenta)
                             .doOnSuccess(saved -> {
                                 System.out.println("Guardada: " + saved.id);
+                                messageProducer.sendMessage(saved.toString());
                                 // Aquí podrías publicar un evento indicando que la cuenta ha sido creada
                                 // eventPublisher.publish(new CuentaCreadaEvent(saved));
                             })
@@ -108,6 +114,7 @@ public Mono<Boolean> validarCuenta(UuidVale uuid, Double balance) {
     return cuentaRepository.findById(uuid.getUuid())
         .map(cuentaExistente -> {
             System.out.println("balance: " + balance);
+            System.out.println("estado: " + cuentaExistente.estado);
             System.out.println("cuentaExistente.getMontoAprobado(): " + cuentaExistente.montoAprobado);
             return Estados.ACTIVO.toString().equals(cuentaExistente.estado)
             && balance <= cuentaExistente.montoAprobado;
