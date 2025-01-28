@@ -20,20 +20,41 @@ public class CuentaEntity {
     public LocalDateTime fechaGestion;
     public String usuarioAprobador;
     public LocalDateTime fechaAprobacion;
+    public double balance;
 
  
-    public CuentaEntity(UUID establecimiento, UUID cliente, double montoAprobado, String tipo,
+    public CuentaEntity(UUID establecimiento, UUID cliente, double montoAprobado, String estado,
                         String observaciones, String usuarioGestor, LocalDateTime fechaGestion,
-                        String usuarioAprobador, LocalDateTime fechaAprobacion) {
+                        String usuarioAprobador, LocalDateTime fechaAprobacion, String tipo) {
                             this.id = UUID.randomUUID();
                             this.establecimiento = establecimiento;
                             this.cliente = cliente;
                             this.montoAprobado = montoAprobado;
-                            this.tipo = tipo;
+                            this.estado = estado;
                             this.observaciones = observaciones;
                             this.usuarioGestor = usuarioGestor;
                             this.fechaGestion = fechaGestion;
                             this.usuarioAprobador = usuarioAprobador;
                             this.fechaAprobacion = fechaAprobacion;
+                            this.tipo = tipo;
                         }
+
+
+    @Override
+    public String toString() {
+        return "CuentaEntity{" +
+                "id=" + id +
+                ", establecimiento=" + establecimiento +
+                ", cliente=" + cliente +
+                ", montoAprobado=" + montoAprobado +
+                ", tipo='" + tipo + '\'' +
+                ", observaciones='" + observaciones + '\'' +
+                ", estado='" + estado + '\'' +
+                ", usuarioGestor='" + usuarioGestor + '\'' +
+                ", fechaGestion=" + fechaGestion +
+                ", usuarioAprobador='" + usuarioAprobador + '\'' +
+                ", fechaAprobacion=" + fechaAprobacion +
+                ", balance=" + balance +
+                '}';
+    }
 }
